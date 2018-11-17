@@ -1,11 +1,10 @@
 const pg = require('pg');
-const pokemon = require('./models/pokemon');
 const user = require('./models/user');
 
 var configs = {
-    user: 'akira',
+    user: 'dsen',
     host: '127.0.0.1',
-    database: 'pokemons',
+    database: 'grocersub',
     port: 5432
 };
 
@@ -19,7 +18,6 @@ module.exports = {
   /*
    * ADD APP MODELS HERE
    */
-  pokemon: pokemon(pool),
   user: user(pool),
 
 

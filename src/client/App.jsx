@@ -2,7 +2,7 @@ import React from 'react';
 import { hot } from 'react-hot-loader';
 
 import Counter from './components/counter/counter';
-import Form from './components/form/form';
+import ProductList from './components/Product/product';
 
 class App extends React.Component {
   constructor() {
@@ -15,7 +15,8 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Form />
+        <h1>SubMe!</h1>
+        <ProductList />
         Welcome.
         <Counter message={this.state.message} />
       </div>
