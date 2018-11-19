@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors')
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
@@ -22,6 +23,8 @@ const setupAppRoutes =
 
 // Init express app
 const app = express();
+
+app.use(cors())
 
 // Set up middleware
 app.use(bodyParser.urlencoded({ extended: true }));

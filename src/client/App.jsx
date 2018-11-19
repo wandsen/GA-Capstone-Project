@@ -8,17 +8,29 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      message: 'hello',
+      message: '',
     };
+
   }
 
   render() {
     return (
       <div>
         <h1>SubMe!</h1>
+
+        <button className="ui button">
+            <a href="/users/new">Register</a>
+        </button>
+
+        <button>
+            <a href="/users/login">Log In</a>
+        </button>
+
+        <form action="/users/logout" method="post">
+          <input type="submit" value="logout"/>
+        </form>
+
         <ProductList />
-        Welcome.
-        <Counter message={this.state.message} />
       </div>
     );
   }

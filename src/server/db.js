@@ -1,5 +1,8 @@
 const pg = require('pg');
 const user = require('./models/user');
+const product = require('./models/product');
+
+
 
 var configs = {
     user: 'dsen',
@@ -19,6 +22,7 @@ module.exports = {
    * ADD APP MODELS HERE
    */
   user: user(pool),
+  product: product(pool),
 
 
   //make queries directly from here

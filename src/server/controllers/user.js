@@ -11,34 +11,50 @@ module.exports = (db) => {
 
   const create = (request, response) => {
       // use user model method `create` to create new user entry in db
-      db.user.create(request.body, (error, queryResult) => {
-        // queryResult of creation is not useful to us, so we ignore it
-        // (console log it to see for yourself)
-        // (you can choose to omit it completely from the function parameters)
+      console.log("request.body", request.body)
 
-        if (error) {
-          console.error('error getting pokemon:', error);
-          response.sendStatus(500);
-        }
+        db.user.checkusername(request.body.name, (error, result) => {
+            console.log("going to create new account", result)
 
-        if (queryResult.rowCount >= 1) {
-          console.log('User created successfully');
 
-          // drop cookies to indicate user's logged in status and username
-          response.cookie('loggedIn', true);
-          response.cookie('username', request.body.name);
-        } else {
-          console.log('User could not be created');
-        }
+        if (result === true){
+            console.log("there is existing username")
+            response.render('user/newuser')
 
-        // redirect to home page after creation
-        response.redirect('/');
-      });
+        }else{
+
+          db.user.create(request.body, (error, queryResult) => {
+
+            if (error) {
+              console.error('error getting user', error);
+              response.sendStatus(500);
+            }
+
+            if (queryResult.rowCount >= 1) {
+              console.log('User created successfully');
+
+              // drop cookies to indicate user's logged in status and username
+              response.cookie('loggedIn', true);
+              response.cookie('username', request.body.name);
+
+            } else {
+              console.log('User could not be created');
+            }
+
+            // redirect to home page after creation
+            response.redirect('/');
+          });
+        };
+
+        });
+
   };
 
   const logout = (request, response) => {
+    console.log("loggin out")
     response.clearCookie('loggedIn');
-    response.redirect(301, '/');
+    response.clearCookie('username');
+    response.redirect('/');
   };
 
   const loginForm = (request, response) => {
@@ -46,9 +62,16 @@ module.exports = (db) => {
   };
 
   const login = (request, response) => {
-    // TODO: Add logic here
-    // Hint: All SQL queries should happen in the corresponding model file
-    // ie. in models/user.js - which method should this controller call on the model?
+
+    db.user.login(request.body, (error, queryResult, loginValue) => {
+
+    let redirectUrl = '/user/' + request.body.name
+
+    response.cookie('loggedIn', loginValue);
+    response.cookie('username', request.body.name);
+
+    response.redirect('/');
+    });
   };
 
   /**
