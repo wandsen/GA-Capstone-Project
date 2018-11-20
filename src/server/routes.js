@@ -2,6 +2,7 @@ module.exports = (app, db) => {
 
   const users = require('./controllers/user')(db);
   const products = require('./controllers/product')(db);
+  const subscriptions = require('./controllers/subscription')(db);
 
   /*
    *  =========================================
@@ -15,16 +16,16 @@ module.exports = (app, db) => {
   // Authentication
   app.post('/users/logout', users.logout);
 
-
-  // app.post('/users/logout', (req, res) => {
-  //   console.log(req.body)
-  //   let text = 'text'
-  //   res.json({text})
-  // })
   app.get('/users/login', users.loginForm);
   app.post('/users/login', users.login);
 
-  //products
+  //get product data
   app.get('/products', products.productList);
+
+
+  //get subscription data
+  app.get('/subscriptions', subscriptions.allSubscriptions);
+  app.get('/subscriptions/:id', subscriptions.specificSubscription);
+
 
 };

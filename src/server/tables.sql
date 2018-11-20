@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS products (
   image TEXT,
   brand TEXT,
   description TEXT,
-  price Integer
+  price numeric
 );
 
 -- Join table of products and users
@@ -27,11 +27,12 @@ CREATE TABLE IF NOT EXISTS users_products (
 CREATE TABLE IF NOT EXISTS subscriptions (
   id SERIAL PRIMARY KEY,
   name TEXT,
+  product_id Integer REFERENCES products,
   image TEXT,
   brand TEXT,
   quantity Integer,
   description TEXT,
-  price Integer
+  price numeric
 );
 
 --Join table of products and subscriptions

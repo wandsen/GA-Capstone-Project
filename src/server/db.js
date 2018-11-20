@@ -1,6 +1,7 @@
 const pg = require('pg');
 const user = require('./models/user');
 const product = require('./models/product');
+const subscription = require('./models/subscription');
 
 
 
@@ -23,6 +24,7 @@ module.exports = {
    */
   user: user(pool),
   product: product(pool),
+  subscription: subscription(pool),
 
 
   //make queries directly from here
