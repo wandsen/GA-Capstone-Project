@@ -23,7 +23,6 @@ module.exports = (db) => {
 
     //get the packages that are unique to a product
     const specificSubscription = (request, response) => {
-        console.log(request.params.id)
 
         db.subscription.getSpecificPackage(request.params.id, (error, queryResult) => {
 

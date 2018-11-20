@@ -13,8 +13,6 @@ module.exports = (dbPoolInstance) => {
       dbPoolInstance.query(queryString, (error, queryResult) => {
         // invoke callback function with results after query has executed
 
-            console.log(queryResult)
-
         callback(error, queryResult);
       });
     };

@@ -3,44 +3,27 @@ import React from 'react';
 // import styles from './style.scss';
 
 
-//Specifc product page and data
-class ProductPage extends React.Component {
+class SubscriptionCreator extends React.Component {
 
     constructor(){
         super()
-
-
-    this.retrievePackage = this.retrievePackage.bind(this)
-
     }
 
-    retrievePackage() {
-
-        let reactThis = this;
-
-        function reqListener() {
-
-            const data = JSON.parse(this.responseText);
-            reactThis.setState({ items: data.rows });
-        }
 
 
-        var oReq = new XMLHttpRequest();
-        oReq.addEventListener("load", reqListener);
 
-        oReq.open("GET", "/subscriptions");
-        oReq.send();
-
-    }
 
     render() {
+        let currentItem = this.props.item
+
+        console.log("running sub creator")
+
         return (
             <div>
-            <h1>{this.props.item.name}</h1>
-                {this.props.item.name}
-                {this.props.item.description}
-                {this.props.item.brand}
-                {this.props.item.price}
+
+            <img src={currentItem.image} className='ui medium circular image'/>
+            <h1>{currentItem.name}</h1>
+            {currentItem.description}
 
             </div>
 
@@ -49,6 +32,98 @@ class ProductPage extends React.Component {
 }
 
 
+
+
+//Specifc product page and data
+class SubscriptionPage extends React.Component {
+
+    constructor(props){
+        super(props)
+        this.state = {
+            packages: [],
+            itemId: this.props.item.id
+        };
+
+
+    this.retrievePackage = this.retrievePackage.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
+    this.componentDidUpdate = this.componentDidUpdate.bind(this);
+    }
+
+    retrievePackage(id) {
+        console.log("retrievePackage", id)
+
+        let reactThis = this;
+
+        function reqListener() {
+
+            const data = JSON.parse(this.responseText);
+            console.log("subscription data", data.rows)
+            reactThis.setState({ packages: data.rows });
+        }
+
+
+        var oReq = new XMLHttpRequest();
+        oReq.addEventListener("load", reqListener);
+
+        oReq.open("GET", "/subscriptions/" + id);
+        oReq.send();
+
+    }
+
+    componentDidMount() {
+        console.log("component did mount")
+        this.retrievePackage(this.props.item.id)
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState){
+        console.log('running get derived state from props')
+        if(nextProps.item.id !== prevState.itemId) {
+            console.log('subscription changing state')
+            return {itemId: nextProps.item.id}
+        }else{
+            return null
+        }
+    }
+
+    componentDidUpdate( prevProps, prevState, snapshot ) {
+      // console.log( "component did update");
+      // console.log( "prevState", prevState);
+      // console.log( "prevProps", prevProps);
+      // console.log( "current state", this.state)
+      // console.log( "current props", this.props.item)
+
+      if (this.props.item.id !== prevProps.item.id){
+        console.log("running ajax call")
+        this.retrievePackage(this.props.item.id)
+      }
+      // console.log( "snapshot from get snapshot before update: "+snapshot);
+    }
+
+
+    render() {
+        console.log("render")
+
+        console.log("package displayed", this.state.packages)
+        // let search = [];
+
+            let search = this.state.packages.map((item, index) => {
+                console.log(item)
+                return <SubscriptionCreator key ={index} item={item}/>
+            })
+
+
+        return (
+            <div>
+            <h1>state item id {this.state.itemId}</h1>
+            {search}
+            </div>
+        )
+    }
+}
+
+
+//create product cards
 class CardCreator extends React.Component {
 
     constructor(){
@@ -135,7 +210,7 @@ class ProductList extends React.Component {
 
 
     onClickRetrieveId(id){
-        console.log(id)
+        console.log("product list state id " , id)
         this.setState({itemId: id})
     }
 
@@ -153,16 +228,16 @@ class ProductList extends React.Component {
             })
         }
 
-        //search for item that user click and pass into ProductPage
+        //search for item that user click and pass into Subscription Page
 
 
-        let productPage = []
+        let subscriptionPage = []
         if (this.state.itemId !== ""){
 
         let specificItem = this.state.items.find( item => item.id === this.state.itemId );
-        console.log(specificItem)
+        console.log("passing item to subscription page", specificItem)
 
-        productPage = <ProductPage item={specificItem}/>
+        subscriptionPage = <SubscriptionPage item={specificItem}/>
         }
 
 
@@ -175,7 +250,7 @@ class ProductList extends React.Component {
                     {search}
                     </div>
 
-                    {productPage}
+                    {subscriptionPage}
 
             </div>
         );

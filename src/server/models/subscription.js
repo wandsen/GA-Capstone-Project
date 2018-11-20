@@ -12,13 +12,11 @@ module.exports = (dbPoolInstance) => {
 
     const getSpecificPackage = (item , callback) => {
 
-      console.log("item", item)
-
-      const queryString = 'SELECT * FROM subscriptions INNER JOIN products ON (products.id = subscriptions.product_id) WHERE products.id=$1';
+      const queryString = 'SELECT subscriptions.* FROM subscriptions INNER JOIN products ON (products.id = subscriptions.product_id) WHERE products.id=$1';
       const values = [item];
 
       dbPoolInstance.query(queryString, values,  (error, queryResult) => {
-
+        console.log(queryResult.rows)
         callback(error, queryResult);
       });
 
