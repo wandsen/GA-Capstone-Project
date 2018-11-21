@@ -3,15 +3,25 @@ import React from 'react';
 // import styles from './style.scss';
 
 
+
+
+
 class SubscriptionCreator extends React.Component {
 
     constructor(){
         super()
+
+        this.addCart = this.addCart.bind(this)
     }
 
 
+    addCart(){
+        console.log('sub adding to cart')
+        console.log('this props item', this.props.item)
+        this.props.addToCart(this.props.item)
 
 
+    }
 
     render() {
         let currentItem = this.props.item
@@ -21,18 +31,17 @@ class SubscriptionCreator extends React.Component {
         return (
             <div>
 
-            <img src={currentItem.image} className='ui medium circular image'/>
+            <img src={currentItem.image} className='ui large circular image'/>
             <h1>{currentItem.name}</h1>
             {currentItem.description}
+
+            <button onClick={this.addCart}>Add to Cart</button>
 
             </div>
 
         )
     }
 }
-
-
-
 
 //Specifc product page and data
 class SubscriptionPage extends React.Component {
@@ -51,14 +60,14 @@ class SubscriptionPage extends React.Component {
     }
 
     retrievePackage(id) {
-        console.log("retrievePackage", id)
+        // console.log("retrievePackage", id)
 
         let reactThis = this;
 
         function reqListener() {
 
             const data = JSON.parse(this.responseText);
-            console.log("subscription data", data.rows)
+            // console.log("subscription data", data.rows)
             reactThis.setState({ packages: data.rows });
         }
 
@@ -71,15 +80,17 @@ class SubscriptionPage extends React.Component {
 
     }
 
+    //on mount use id to call ajax
     componentDidMount() {
-        console.log("component did mount")
+        // console.log("component did mount")
         this.retrievePackage(this.props.item.id)
     }
 
+
     static getDerivedStateFromProps(nextProps, prevState){
-        console.log('running get derived state from props')
+        // console.log('running get derived state from props')
         if(nextProps.item.id !== prevState.itemId) {
-            console.log('subscription changing state')
+            // console.log('subscription changing state')
             return {itemId: nextProps.item.id}
         }else{
             return null
@@ -94,7 +105,7 @@ class SubscriptionPage extends React.Component {
       // console.log( "current props", this.props.item)
 
       if (this.props.item.id !== prevProps.item.id){
-        console.log("running ajax call")
+        // console.log("running ajax call")
         this.retrievePackage(this.props.item.id)
       }
       // console.log( "snapshot from get snapshot before update: "+snapshot);
@@ -102,14 +113,14 @@ class SubscriptionPage extends React.Component {
 
 
     render() {
-        console.log("render")
+        // console.log("render")
 
-        console.log("package displayed", this.state.packages)
+        // console.log("package displayed", this.state.packages)
         // let search = [];
 
             let search = this.state.packages.map((item, index) => {
-                console.log(item)
-                return <SubscriptionCreator key ={index} item={item}/>
+                // console.log(item)
+                return <SubscriptionCreator addToCart={this.props.addToCart} key ={index} item={item}/>
             })
 
 
@@ -180,7 +191,6 @@ class ProductList extends React.Component {
         this.retrieveProduct = this.retrieveProduct.bind(this);
         this.onClickRetrieveId = this.onClickRetrieveId.bind(this);
 
-
     }
 
     //gets data from /products, returns returns an object with product data
@@ -210,7 +220,7 @@ class ProductList extends React.Component {
 
 
     onClickRetrieveId(id){
-        console.log("product list state id " , id)
+        // console.log("product list state id " , id)
         this.setState({itemId: id})
     }
 
@@ -237,13 +247,11 @@ class ProductList extends React.Component {
         let specificItem = this.state.items.find( item => item.id === this.state.itemId );
         console.log("passing item to subscription page", specificItem)
 
-        subscriptionPage = <SubscriptionPage item={specificItem}/>
+        subscriptionPage = <SubscriptionPage addToCart={this.props.addToCart} item={specificItem}/>
         }
-
 
         return (
             <div>
-              {this.state.itemId}
 
                 <h1>Product Catalogue </h1>
                     <div className="ui grid stackable six cards">
