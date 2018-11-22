@@ -245,7 +245,6 @@ class ProductList extends React.Component {
         if (this.state.itemId !== ""){
 
         let specificItem = this.state.items.find( item => item.id === this.state.itemId );
-        console.log("passing item to subscription page", specificItem)
 
         subscriptionPage = <SubscriptionPage addToCart={this.props.addToCart} item={specificItem}/>
         }

@@ -34,7 +34,7 @@ module.exports = (db) => {
               console.log('User created successfully');
 
               // drop cookies to indicate user's logged in status and username
-              response.cookie('loggedIn', true);
+              response.cookie('loggedInStatus', true);
               response.cookie('username', request.body.name);
 
             } else {
@@ -54,6 +54,8 @@ module.exports = (db) => {
     console.log("loggin out")
     response.clearCookie('loggedIn');
     response.clearCookie('username');
+    response.clearCookie('loggedInStatus');
+
     response.redirect('/');
   };
 
@@ -68,6 +70,7 @@ module.exports = (db) => {
     let redirectUrl = '/user/' + request.body.name
 
     response.cookie('loggedIn', loginValue);
+    response.cookie('loggedInStatus', true);
     response.cookie('username', request.body.name);
 
     response.redirect('/');
