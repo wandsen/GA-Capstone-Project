@@ -4,24 +4,36 @@ class NewUser extends React.Component {
   render() {
     return (
       <html>
-        <head />
+        <head>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.0/dist/semantic.min.css"></link>
+        </head>
         <body>
-          <form className="user-form" method="POST" action="/users">
-            <div className="user-attribute">
-              Username<input name="name" type="text" />
-            </div>
-            <div className="user-attribute">
-              Password:<input name="password" type="text" />
-            </div>
-            <div className="user-attribute">
-              Email:<input name="email" type="text" />
-            </div>
-            <div className="user-attribute">
-              Location:<input name="location" type="text" />
-            </div>
+            <h1 class='ui center aligned header'>Registration</h1>
+            <div class='ui container'>
+                <form class='ui form' method="POST" action="/users">
+                  <div class='field'>
+                    <label>Username</label>
+                    <input name="name" placeholder='First Name' />
+                  </div>
+                  <div class='field'>
+                    <label>Password</label>
+                    <input name="password" placeholder='Password' />
+                  </div>
+                  <div class='field'>
+                    <label>Email</label>
+                    <input name="email" placeholder='Email' />
+                  </div>
+                  <div class='field'>
+                    <label>Location</label>
+                    <input name="location" placeholder='Location' />
+                  </div>
 
-            <input name="submit" type="submit" />
-          </form>
+                  <button type='submit' class='ui button' role='button'>
+                    Submit
+                  </button>
+                  <a href='/' class='ui button'>Back</a>
+                </form>
+            </div>
         </body>
       </html>
     );

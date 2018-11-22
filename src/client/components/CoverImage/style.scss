@@ -1,0 +1,14 @@
+.coverimage{
+ width: auto;
+ height: 800px;
+ background-size: 100%;
+ background-image: url(https://images.unsplash.com/photo-1463490093487-b0ffe9b8e140?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjF9&s=a38b1e070fe82b7f01f0c5aa2c920f10);
+}
+
+#imagetext{
+	position: relative;
+	float: left;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}

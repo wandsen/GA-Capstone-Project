@@ -1,6 +1,6 @@
 import React from 'react';
 
-// import styles from './style.scss';
+import styles from './style.scss';
 
 
 
@@ -252,12 +252,14 @@ class ProductList extends React.Component {
         return (
             <div>
 
-                <h1>Product Catalogue </h1>
+                <h1 class='ui center aligned header'>Best Sellers</h1>
+                    <div className={styles.topSpace}></div>
                     <div className="ui grid stackable six cards">
                     {search}
                     </div>
-
+                    <div className="ui grid stackable six cards">
                     {subscriptionPage}
+                    </div>
 
             </div>
         );
