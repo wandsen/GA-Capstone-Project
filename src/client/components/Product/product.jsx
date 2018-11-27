@@ -254,7 +254,7 @@ class ProductList extends React.Component {
 
                 <h1 class='ui center aligned header'>Best Sellers</h1>
                     <div className={styles.topSpace}></div>
-                    <div className="ui grid stackable six cards">
+                    <div className="ui grid stackable six cards center aligned">
                     {search}
                     </div>
                     <div className="ui grid stackable six cards">
