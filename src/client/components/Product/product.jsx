@@ -1,10 +1,5 @@
 import React from 'react';
-
 import styles from './style.scss';
-
-
-
-
 
 class SubscriptionCreator extends React.Component {
 
@@ -29,14 +24,18 @@ class SubscriptionCreator extends React.Component {
         console.log("running sub creator")
 
         return (
-            <div>
+            <div class='row'>
 
-            <img src={currentItem.image} className='ui large circular image'/>
-            <h1>{currentItem.name}</h1>
-            {currentItem.description}
-
-            <button onClick={this.addCart}>Add to Cart</button>
-
+                <div class='three wide column'>
+                    <div className={styles.subImage}><img src={currentItem.image} className='ui huge bordered image'/></div>
+                </div>
+                <div class='ten wide column'>
+                    <h5>{currentItem.name}</h5>
+                    <p>{currentItem.description}</p>
+                </div>
+                <div class='three wide column'>
+                    <button class='ui primary button' role='button' onClick={this.addCart}>Add to Cart</button>
+                </div>
             </div>
 
         )
@@ -50,7 +49,7 @@ class SubscriptionPage extends React.Component {
         super(props)
         this.state = {
             packages: [],
-            itemId: this.props.item.id
+            itemId: this.props.item.name
         };
 
 
@@ -98,22 +97,16 @@ class SubscriptionPage extends React.Component {
     }
 
     componentDidUpdate( prevProps, prevState, snapshot ) {
-      // console.log( "component did update");
-      // console.log( "prevState", prevState);
-      // console.log( "prevProps", prevProps);
-      // console.log( "current state", this.state)
-      // console.log( "current props", this.props.item)
 
       if (this.props.item.id !== prevProps.item.id){
-        // console.log("running ajax call")
         this.retrievePackage(this.props.item.id)
       }
-      // console.log( "snapshot from get snapshot before update: "+snapshot);
     }
 
 
     render() {
-        // console.log("render")
+                console.log("render test", this.props.item)
+
 
         // console.log("package displayed", this.state.packages)
         // let search = [];
@@ -125,13 +118,33 @@ class SubscriptionPage extends React.Component {
 
 
         return (
+        <div>
+
+        <div class='ui vertically divided grid'>
+          <div class='ui stackable two column row'>
+        <div class='column'>
+
+                <img className={styles.productImage} src={this.props.item.image}/>
+        </div>
+          <div class='column'>
+                <h1>{this.props.item.name}</h1>
+                <p>{this.props.item.description}</p>
             <div>
-            <h1>state item id {this.state.itemId}</h1>
-            {search}
+
+                <h2>Subscription Packages</h2>
+                <div class='ui celled grid'>
+                {search}
+                </div>
+
             </div>
-        )
-    }
-}
+          </div>
+
+           </div>
+        </div>
+        </div>
+                    )
+                }
+            }
 
 
 //create product cards
@@ -185,7 +198,8 @@ class ProductList extends React.Component {
         super();
         this.state = {
             items: [],
-            itemId: ""
+            itemId: "",
+            displayProduct: false
         };
 
         this.retrieveProduct = this.retrieveProduct.bind(this);
@@ -221,7 +235,7 @@ class ProductList extends React.Component {
 
     onClickRetrieveId(id){
         // console.log("product list state id " , id)
-        this.setState({itemId: id})
+        this.setState({itemId: id, displayProduct: true})
     }
 
 
@@ -231,9 +245,9 @@ class ProductList extends React.Component {
 
         let search = [];
 
-        if (this.state.items !== undefined) {
+        if (this.state.items !== undefined && this.state.displayProduct === false) {
 
-            search = this.state.items.map((item, index) => {
+            search =  this.state.items.map((item, index) => {
                 return <CardCreator onClickRetrieveId = {this.onClickRetrieveId} key ={index} item={item}/>
             })
         }
@@ -252,7 +266,6 @@ class ProductList extends React.Component {
         return (
             <div>
 
-                <h1 class='ui center aligned header'>Best Sellers</h1>
                     <div className={styles.topSpace}></div>
                     <div className="ui grid stackable six cards center aligned">
                     {search}
